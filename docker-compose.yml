@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  postgre:
+      container_name: postgre-db
+      image: postgres:latest
+      restart: always
+      volumes:
+        - "./storages/postgre:/var/lib/postgresql"
+      environment:
+        POSTGRES_PASSWORD: pass
+      networks:
+        - appnet
+  pg_admin:
+    container_name: postgre-admin
+    image: dpage/pgadmin4
+    depends_on: 
+      - postgre
+    ports:
+      - "5556:80"
+    volumes:
+      - ./storages/pg_admin:/var/lib/pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=pass
+    networks:
+      - appnet
+
+  nginx:
+    container_name: nginx-server
+    build:
+      dockerfile: docker/nginx/Dockerfile
+    ports: 
+      - '8888:80'
+    volumes:
+      - "./config/nginx/nginx.conf:/etc/nginx/nginx.conf"
+    networks:
+      - appnet
+
+  app:
+    container_name: python-app
+    build:
+      context: ./docker/python
+    volumes:
+      - "./app:/app"
+    networks:
+      - appnet
+
+networks:
+  appnet:
