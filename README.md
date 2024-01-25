@@ -1,0 +1,1 @@
+### Checking PostgreSQL inheritance ability for Flask Python environment
