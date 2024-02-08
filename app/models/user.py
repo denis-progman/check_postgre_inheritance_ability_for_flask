@@ -3,7 +3,6 @@ from datetime import datetime
 from .main_model import MainModel
 from db import db
 
-
 class User(db.Model, MainModel):
     __tablename__ = 'users'
 
