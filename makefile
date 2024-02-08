@@ -19,11 +19,17 @@ help:
 	@echo "  stop:         Stop the docker containers"
 	@echo "  restart:      Restart the docker containers"
 	@echo "  logs:         Show the logs of the docker containers"
-	@echo "  logs-api:     Show the logs of the api container"
 	@echo "  ps:           List the docker containers"
-	@echo "  login-timescale:  Login to the timescale container"
-	@echo "  login-api:    Login to the api container"
-	@echo "  db-shell:     Open a psql shell to the timescale container"
+	@echo "  ex-in:        Execute a command into a running container"
+	@echo "  app-ex:       Execute a command into the app container"
+	@echo "  db:           Execute a command into the db container"
+	@echo "  db-sql:       Open the psql shell"
+	@echo "  db-list:      List the databases"
+	@echo "  db-tables:    List the tables of the default database"
+	@echo "  flask-i:      Initialize the flask migrations"
+	@echo "  flask-m:      Create a new flask migration"
+	@echo "  flask-u:      Upgrade the flask migrations"
+
 
 build:
 	docker compose -f $(COMPOSE_FILE_DEFAULT_NAME) build $(c)
@@ -50,27 +56,40 @@ restart:
 logs:
 	docker compose -f $(COMPOSE_FILE_DEFAULT_NAME) logs --tail=100 -f $(c)
 
-logs-api:
-	docker compose -f $(COMPOSE_FILE_DEFAULT_NAME) logs --tail=100 -f api
-
 ps:
 	docker compose -f $(COMPOSE_FILE_DEFAULT_NAME) ps
 
-login-timescale:
-	docker compose -f $(COMPOSE_FILE_DEFAULT_NAME) exec timescale /bin/bash
+ex-in:
+	docker exec $(container) $(c)
 
-login-api:
-	docker compose -f $(COMPOSE_FILE_DEFAULT_NAME) exec api /bin/bash
+app-ex:
+	docker exec $(APP_CONTAINER_NAME) $(c)
 
-db-shell:
-	docker compose -f $(COMPOSE_FILE_DEFAULT_NAME) exec timescale psql -Upostgres
-
-exec-into:
-	docker exec $(container) $(command)
-
-app-exec:
-	docker exec container=$(APP_CONTAINER_NAME) command=$(command)
+db:
+	docker exec -it $(DB_CONTAINER_NAME) psql -U $(DB_USER_NAME) $(DB_NAME) -c "$(c)"
 
 db-sql:
-	docker exec -it $(DB_CONTAINER_NAME) psql -U $(DB_USER_NAME) -W $(DB_NAME) $(DB_PASSWORD)
+	docker exec -it $(DB_CONTAINER_NAME) psql -U $(DB_USER_NAME) $(DB_NAME)
+
+db-list:
+	docker exec -it $(DB_CONTAINER_NAME) psql -U $(DB_USER_NAME) $(DB_NAME) -c "\l"
+
+db-tables:
+	docker exec -it $(DB_CONTAINER_NAME) psql -U $(DB_USER_NAME) $(DB_NAME) -c "\dt"
+
+db-del-all-tables:
+	rm -rf app/migrations
+	docker exec -it $(DB_CONTAINER_NAME) psql -U $(DB_USER_NAME) $(DB_NAME) -c "DROP SCHEMA public CASCADE;CREATE SCHEMA public;GRANT ALL ON SCHEMA public TO postgres;GRANT ALL ON SCHEMA public TO public;"
+
+flask-i:
+	docker exec $(APP_CONTAINER_NAME) flask db init
+
+flask-m:
+	docker exec $(APP_CONTAINER_NAME) flask db migrate
+
+flask-u:
+	docker exec $(APP_CONTAINER_NAME) flask db upgrade
+
+flask-dg:
+	docker exec $(APP_CONTAINER_NAME) flask db downgrade
 	

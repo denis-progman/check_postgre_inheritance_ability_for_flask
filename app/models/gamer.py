@@ -1,15 +1,12 @@
 from sqlalchemy import Column, ForeignKey, Identity, Integer
 from datetime import datetime
-from app.models.user import User
-from .main_model import MainModel
+from .user import User
 from db import db
-
 
 class Gamer(User):
     __tablename__ = 'gamers'
     __mapper_args__ = {
         'polymorphic_identity': 'gamers',
-        "polymorphic_on": "type"
     }
 
     mutable_fields = [
@@ -17,8 +14,8 @@ class Gamer(User):
         "last_name",
         "nickname",
         "avatar",
-        "best_score"
+        "best_score",
     ]
 
-    id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    id = Column(None, ForeignKey('users.id'), primary_key=True)
     best_score = Column(Integer, nullable=False, default=0)

@@ -2,9 +2,16 @@ from sqlalchemy import Identity
 from datetime import datetime
 from .main_model import MainModel
 from db import db
+from sqlalchemy.orm import DeclarativeBase
 
-class User(db.Model, MainModel):
+
+class User(MainModel, db.Model):
     __tablename__ = 'users'
+
+    __mapper_args__ = {
+        "polymorphic_identity": "users",
+        "polymorphic_on": "type",
+    }
 
     mutable_fields = [
         "first_name",
@@ -18,6 +25,7 @@ class User(db.Model, MainModel):
     id = db.Column(db.Integer(), Identity(), primary_key=True, nullable=False, unique=True,)
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.now)
     updated_at = db.Column(db.DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
+    type = db.Column(db.String(100))
 
 # Input by User Fields:
     first_name = db.Column(db.String(100), nullable=False)

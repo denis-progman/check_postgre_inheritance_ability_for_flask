@@ -1,8 +1,8 @@
-"""user sub class Gammer
+"""empty message
 
-Revision ID: 8eb997366b24
-Revises: 281d99ff5c1a
-Create Date: 2024-02-01 05:00:48.264983
+Revision ID: 3507d85bc3fb
+Revises: 2b103ce8fa46
+Create Date: 2024-02-08 20:17:02.174935
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8eb997366b24'
-down_revision = '281d99ff5c1a'
+revision = '3507d85bc3fb'
+down_revision = '2b103ce8fa46'
 branch_labels = None
 depends_on = None
 

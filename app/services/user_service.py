@@ -1,5 +1,4 @@
-import uuid
-from models.user import User
+from models import User
 from sqlalchemy import select, desc
 from db import db
 
