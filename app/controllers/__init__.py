@@ -1,2 +1,4 @@
 from controllers.user_controller import UserController
 from controllers.gamer_controller import GamerController
+from controllers.viewer_controller import ViewerController
+from controllers.loser_controller import LoserController

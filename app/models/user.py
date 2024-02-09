@@ -1,9 +1,7 @@
 from sqlalchemy import Identity
 from datetime import datetime
-from .main_model import MainModel
+from models.main_model import MainModel
 from db import db
-from sqlalchemy.orm import DeclarativeBase
-
 
 class User(MainModel, db.Model):
     __tablename__ = 'users'
