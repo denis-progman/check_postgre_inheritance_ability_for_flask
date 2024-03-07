@@ -7,13 +7,12 @@ class User(db.Model):
 
     mutable_fields = [
         "login",
-        "date_of_birth",
+        # "date_of_birth",
         "first_name",
         "last_name",
         "middle_name",
         "avatar",
-        "google_id",
-        "apple_id"
+        "google_id"
     ]
 
 
@@ -27,10 +26,10 @@ class User(db.Model):
 
 # Input by User Fields:
     login = db.Column(db.String(100), nullable=True, unique=True)
-    date_of_birth = db.Column(db.DateTime(timezone=True))
+    # date_of_birth = db.Column(db.DateTime, nullable=True)
     first_name = db.Column(db.String(100), nullable=True)
     last_name = db.Column(db.String(100), nullable=True)
     middle_name = db.Column(db.String(100), nullable=True)
     avatar = db.Column(db.String(256))
-    google_id = db.Column(db.Integer(), nullable=True, unique=True)
-    apple_id = db.Column(db.Integer(), nullable=True, unique=True)
+    google_id = db.Column(db.String(), unique=True)
+    # apple_id = db.Column(db.String(), nullable=True, unique=True)
