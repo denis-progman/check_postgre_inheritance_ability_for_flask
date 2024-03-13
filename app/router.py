@@ -17,6 +17,7 @@ route_rules = [
     #Users
     {"rule": "/create_user", "methods": ["POST"], "view_func": UserController.create_user},
     {"rule": "/get_all_users", "methods": ["GET"], "view_func": UserController.get_all_users},
+    {"rule": "/delete_user/<int:user_id>", "methods": ["DELETE"], "view_func": UserController.delete_user},
 ]
 
 def routs_init(app: Flask):

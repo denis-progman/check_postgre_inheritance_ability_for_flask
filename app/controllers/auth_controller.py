@@ -4,6 +4,7 @@ import requests
 
 from flask import abort, session, request, redirect, session
 from configs import Config
+from services.user_service import UserService
 # from flask_oauthlib.client import OAuth
 
 from google.oauth2 import id_token
@@ -12,7 +13,8 @@ from pip._vendor import cachecontrol
 import google.auth.transport.requests
 
 
-# os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 
 google_client_id = Config.GOOGLE_CLIENT_ID
@@ -44,9 +46,9 @@ def callback():
         session=cached_session)
 
     id_info = id_token.verify_oauth2_token(
-        id_token=credentials._id_token,
         request=token_request,
-        audience=google_client_id
+        audience=google_client_id,
+        id_token=credentials._id_token
     )
 
     session["google_id"] = id_info.get("sub")
@@ -54,7 +56,8 @@ def callback():
     return redirect("/personal_account")
 
 def personal_account():
-    if "google_id" in session:
+    if "google_id" in session:       
+        UserService.create_user({"google_id":session["google_id"]})
         return "Logged_in via Google <a href='/log_out'><button>Log out</button></a>"
     else:
         return abort(401) 

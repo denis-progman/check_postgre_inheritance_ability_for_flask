@@ -37,3 +37,12 @@ class UserService:
 
     def get_user_by_id(user_id):
         return __class__.get_users_by("id", user_id)[int(user_id)]
+    
+    def delete_user(user_id):
+        user = User.query.get(user_id)
+        if user == None:
+            return ('User with Id "{}" is not found!').format(user_id)
+
+        db.session.delete(user)
+        db.session.commit()
+        return ('User with Id "{}" deleted successfully!').format(user_id)

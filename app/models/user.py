@@ -1,8 +1,9 @@
 from sqlalchemy import Identity
 from datetime import datetime
+from models.main_model import MainModel
 from db import db
 
-class User(db.Model):
+class User(MainModel, db.Model):
     __tablename__ = 'users'
 
     mutable_fields = [
