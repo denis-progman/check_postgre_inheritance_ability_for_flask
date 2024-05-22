@@ -1,9 +1,11 @@
 .vscode
 .idea
 .env
+.venv
 .terraform
 .DS_Store
 __pycache__/
 storages/pg_admin/*
 storages/postgre/*
 app/__pycache__
+client_secret.json

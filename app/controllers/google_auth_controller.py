@@ -2,16 +2,11 @@ import os
 import pathlib
 import requests
 
-from controllers.user_controller import UserController
-
 from flask import abort, session, request, redirect
 from configs import Config
 from services.user_service import UserService
-<<<<<<< HEAD
-=======
 from services.google_auth_service import Google_Auth_Service
 from services.apple_auth_service import Apple_Auth_Service
->>>>>>> bb8bfb8 (issue: checking bad request)
 # from flask_oauthlib.client import OAuth
 
 from google.oauth2 import id_token
@@ -24,10 +19,6 @@ from flask import request
 import httplib2
 from oauth2client import client
 
-<<<<<<< HEAD
-
-=======
->>>>>>> bb8bfb8 (issue: checking bad request)
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 
@@ -50,7 +41,7 @@ def login_window():
     return redirect(authorization_url)
 
 def callback():
-    flow.fetch_token(code=code)
+    flow.fetch_token(authorization_response=request.url)
 
     # if not session["state"] == request.args["state"]:
     #     abort(500)  # State does not match!
@@ -73,13 +64,9 @@ def callback():
 
 def personal_account():
     if "google_id" in session:       
-<<<<<<< HEAD
-        UserService.create_user({"google_id":session["google_id"]})
-=======
         # existed_user = UserService.get_users_by("google_id", session["google_id"])
         # if not existed_user:
         #     UserService.create_user({"google_id":session["google_id"]})
->>>>>>> bb8bfb8 (issue: checking bad request)
         return "Logged_in via Google <a href='/log_out'><button>Log out</button></a>"
     else:
         return abort(401) 
@@ -88,19 +75,15 @@ def account_exit():
     session.clear()
     return redirect("/")
 
-def user_auth():
+def google_auth():
     # (Receive auth_code by HTTPS POST)
     data = request.get_json()
-
-    if data['google_id'] in session:
-        return session['key']  #sending the session's key to frontend
-    
     auth_code = data['auth_code']
 
     # If this request does not have `X-Requested-With` header, this could be a CSRF
 
-    if not request.headers.get('X-Requested-With'):
-        abort(403)
+    # if not request.headers.get('X-Requested-With'):
+    #     abort(403)
 
     # Set path to the Web application client_secret_*.json file you downloaded from the
     # Google API Console: https://console.cloud.google.com/apis/credentials
@@ -117,10 +100,7 @@ def user_auth():
     appfolder = drive_service.files().get(fileId='appfolder').execute()
 
     # Get profile info from ID token
-    session['google_id'] = credentials.id_token['sub']
-    session['key'] = os.urandom(10).hex()
-
-    if UserController.get_user_by_google_id(session['google_id']):
-        return session['key']  #sending the session's key to frontend
-    else:
-        return redirect("/create_user") 
+    userid = credentials.id_token['sub']
+    email = credentials.id_token['email']
+    session['key'] = s_key = os.urandom(7).hex()
+    return session['key']

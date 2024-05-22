@@ -2,7 +2,8 @@ import datetime
 import os
 
 from db import db, migrate
-from flask import Flask
+from flask import Flask, session
+from flask_session import Session
 from configs import current_config
 from router import routs_init
 
@@ -14,6 +15,10 @@ migrate.init_app(app_instance, db)
 # Session data
 s_key = os.urandom(20).hex()
 app_instance.config['SECRET_KEY'] = s_key
+
+app_instance.config["SESSION_TYPE"] = "filesystem"
+Session(app_instance)
+
 # default time is 31 days(app.permanent_session_lifetime)
 app_instance.permanent_session_lifetime = datetime.timedelta(days=10)
 

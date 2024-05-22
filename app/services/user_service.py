@@ -23,6 +23,18 @@ class UserService:
         db.session.commit()
         return __class__.get_user_by_id(new_user.id)
     
+<<<<<<< HEAD
+=======
+    def update_user(user_id, request_body):
+        user = User.query.get(user_id)
+
+        for field_key, field_value in request_body.items():
+            setattr(user, field_key, field_value)
+        db.session.commit()
+
+        return __class__.get_user_by_id(user_id)
+    
+>>>>>>> bb8bfb8 (issue: checking bad request)
     def get_users_by(field = None, field_value = None, from_number = None, count = None):
         clauses = []
         if not field == None:
@@ -36,7 +48,14 @@ class UserService:
         return response
 
     def get_user_by_id(user_id):
+<<<<<<< HEAD
         return __class__.get_users_by("id", user_id)[int(user_id)]
+=======
+        return __class__.get_users_by("id", user_id)
+    
+    def get_user_by_google_id(google_id):
+        return __class__.get_users_by("google_id", google_id)
+>>>>>>> bb8bfb8 (issue: checking bad request)
     
     def delete_user(user_id):
         user = User.query.get(user_id)
