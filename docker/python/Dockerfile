@@ -7,9 +7,6 @@ RUN apt-get update -y \
 openrc \
 curl
 
-RUN pip3 install -r requirements.txt
+CMD pip3 install -r requirements.txt && python3 -m flask --debug run --host=0.0.0.0
 
-CMD python3 -m flask --debug run --host=0.0.0.0
-
-# ENTRYPOINT ["tail", "-f", "/dev/null"]
-# CMD python3 -m flask run --host=127.0.0.1:5000
+# ENTRYPOINT ["tail", "-f", "/dev/null"] # debagging mode
