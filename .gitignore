@@ -7,3 +7,4 @@ __pycache__/
 storages/pg_admin/*
 storages/postgre/*
 app/__pycache__
+.venv/
