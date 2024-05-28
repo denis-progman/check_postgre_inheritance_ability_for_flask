@@ -1,6 +1,5 @@
 FROM python:3
 WORKDIR /app
-COPY requirements.txt /app/requirements.txt
 
 RUN apt-get update -y \ 
 && apt-get install -y \
