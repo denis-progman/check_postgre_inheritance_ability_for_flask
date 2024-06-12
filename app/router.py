@@ -3,10 +3,14 @@ from controllers import UserController
 from controllers import GamerController
 from controllers import ViewerController
 from controllers import LoserController
+from controllers import google_auth_controller
 
 route_rules = [
     # Main
-    {"rule": "/", "methods": ["GET"], "view_func": lambda: "Hello world!"},
+    {"rule": "/", "methods": ["GET"], "view_func": lambda: "Hello worldddddd!"},
+
+    {"rule": "/checking", "methods": ["POST"], "view_func": google_auth_controller.checking},
+    # {"rule": "/callback", "methods": ["GET"], "view_func": google_auth_controller.callback},
 
     # User api
     {"rule": "/get_users", "methods": ["GET"], "view_func": UserController.get_users},

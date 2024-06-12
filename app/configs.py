@@ -4,6 +4,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     TRACK_STORAGE_FOLDER = "track_storage"
     MAX_CONTENT_LENGTH = 1024 * 1024 * 25 # 25 mb
+    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
