@@ -7,3 +7,6 @@ __pycache__/
 storages/pg_admin/*
 storages/postgre/*
 app/__pycache__
+.venv/
+flask_session/
+client_secret.json
