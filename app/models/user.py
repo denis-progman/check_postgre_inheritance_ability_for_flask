@@ -12,10 +12,11 @@ class User(MainModel, db.Model):
     }
 
     mutable_fields = [
-        "first_name",
-        "last_name",
-        "nickname",
+        "login",
+        # "date_of_birth",
+        "user_name",
         "avatar",
+        "google_id"
     ]
     
     
@@ -26,10 +27,13 @@ class User(MainModel, db.Model):
     type = db.Column(db.String(100))
 
 # Input by User Fields:
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
-    nickname = db.Column(db.String(50), nullable=False, unique=True)
+    login = db.Column(db.String(100), nullable=True, unique=True)
+    # date_of_birth = db.Column(db.DateTime, nullable=True)
+    user_name = db.Column(db.String(100), nullable=True)
+    middle_name = db.Column(db.String(100), nullable=True)
     avatar = db.Column(db.String(256))
+    google_id = db.Column(db.String(), unique=True)
+    # apple_id = db.Column(db.String(), nullable=True, unique=True)
 
     # @validates('time_per_unit')
     # def empty_string_to_null(self, key, value):

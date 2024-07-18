@@ -3,14 +3,18 @@ from controllers import UserController
 from controllers import GamerController
 from controllers import ViewerController
 from controllers import LoserController
-from controllers import google_auth_controller
+from controllers import GoogleAuthController
+from controllers import AppController
 
 route_rules = [
     # Main
     {"rule": "/", "methods": ["GET"], "view_func": lambda: "Hello worldddddd!"},
 
-    {"rule": "/checking", "methods": ["POST"], "view_func": google_auth_controller.checking},
-    # {"rule": "/callback", "methods": ["GET"], "view_func": google_auth_controller.callback},
+    # Test
+    {"rule": "/test/<string:password_to_verify>", "methods": ["POST"], "view_func": AppController.password_verify},
+    {"rule": "/test2", "methods": ["GET"], "view_func": AppController.get_hashed_password},
+
+    {"rule": "/user_auth", "methods": ["POST"], "view_func": GoogleAuthController.user_auth},
 
     # User api
     {"rule": "/get_users", "methods": ["GET"], "view_func": UserController.get_users},
