@@ -1,6 +1,7 @@
 .vscode
 .idea
 .env
+.venv
 .terraform
 .DS_Store
 __pycache__/
