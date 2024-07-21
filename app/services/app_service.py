@@ -6,9 +6,9 @@ class AppService:
     password = os.getenv('PASSWORD_TO_HASH').encode()
     salt = os.getenv('SALT').encode()
 
-    def create_response(body=None, status=200, header_value=None):     
-        response = make_response(body, 200)   
-        response.headers['X-Requested-With'] = header_value     
+    def create_response(body=None, status=200, header_value=None):
+        response = make_response(body, 200)
+        response.headers['X-Requested-With'] = header_value
         return response
     
     def is_valide(password_to_verify):
