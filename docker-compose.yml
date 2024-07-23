@@ -29,6 +29,8 @@ services:
     container_name: nginx-server
     build:
       dockerfile: docker/nginx/Dockerfile
+    depends_on: 
+      - app
     ports: 
       - '8888:80'
     volumes:
@@ -40,6 +42,8 @@ services:
     container_name: python-app
     build:
       context: ./docker/python
+    depends_on: 
+      - postgre
     volumes:
       - "./app:/app"
     networks:
