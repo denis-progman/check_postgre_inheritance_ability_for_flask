@@ -4,6 +4,7 @@ from configs import current_config
 from router import routs_init
 from flask_session import Session
 
+
 app_instance = Flask(__name__)
 app_instance.config.from_object(current_config)
 db.init_app(app_instance)
