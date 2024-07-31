@@ -1,0 +1,33 @@
+name: Deploy to the hosting FTP
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-deploy:
+    name: 🎉 Build->Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: Sanding the result notification through Telegram
+        run: |
+          curl --get \
+            --data-urlencode 'chat_id=${{vars.TELEGRAM_DEPLOY_NOTICE_RECIPIENT_ID}}' \
+            --data-urlencode "text=✅ NEW UPDATES in ${{github.event.repository.name}} repo! ${{github.event.head_commit.message}} (${{github.event.head_commit.id}})" \
+            https://api.telegram.org/bot${{secrets.TELEGRAM_DEPLOY_NOTIFIER_BOT_TOKEN}}/sendMessage
+
+  debug:
+    name: Check failure
+    needs: build-deploy
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    steps:
+      - name: Sanding the debug result notification through Telegram
+        run: |
+          curl --get \
+            --data-urlencode 'chat_id=${{vars.TELEGRAM_DEPLOY_NOTICE_RECIPIENT_ID}}' \
+            --data-urlencode "text=🆘 FAILURE in ${{github.event.repository.name}}! ${{github.event.head_commit.message}} (${{github.event.head_commit.id}})" \
+            https://api.telegram.org/bot${{secrets.TELEGRAM_DEPLOY_NOTIFIER_BOT_TOKEN}}/sendMessage

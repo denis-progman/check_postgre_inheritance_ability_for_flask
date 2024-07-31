@@ -4,6 +4,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     TRACK_STORAGE_FOLDER = "track_storage"
     MAX_CONTENT_LENGTH = 1024 * 1024 * 25 # 25 mb
+    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+    CLIEN_SECRET_FILE = "../client_secret.json"
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
@@ -11,10 +13,12 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DEVELOPMENT_DATABASE_URL")
     UPLOAD_FOLDER = "dev_file_storage"
+    OAUTHLIB_INSECURE_TRANSPORT = "1"
 
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URL")
+    OAUTHLIB_INSECURE_TRANSPORT = "1"
 
 class ProductionConfig(Config):
     DEBUG = False
