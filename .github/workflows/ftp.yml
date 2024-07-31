@@ -14,7 +14,7 @@ jobs:
 
       - name: Sanding the result notification through Telegram
         run: |
-          curl --get \
+          curl -G \
             --data-urlencode "chat_id=${{vars.TELEGRAM_DEPLOY_NOTICE_RECIPIENT_ID}}" \
             --data-urlencode "text=✅ NEW UPDATES in ${{github.event.repository.name}} repo! ${{github.event.head_commit.message}} (${{github.event.head_commit.id}})" \
             https://api.telegram.org/bot${{secrets.TELEGRAM_DEPLOY_NOTIFIER_BOT_TOKEN}}/sendMessage
@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Sanding the debug result notification through Telegram
         run: |
-          curl --get \
-            --data-urlencode "chat_id=${{vars.TELEGRAM_DEPLOY_NOTICE_RECIPIENT_ID}}"" \
+          curl -G \
+            --data-urlencode "chat_id=${{vars.TELEGRAM_DEPLOY_NOTICE_RECIPIENT_ID}}" \
             --data-urlencode "text=🆘 FAILURE in ${{github.event.repository.name}}! ${{github.event.head_commit.message}} (${{github.event.head_commit.id}})" \
             https://api.telegram.org/bot${{secrets.TELEGRAM_DEPLOY_NOTIFIER_BOT_TOKEN}}/sendMessage
