@@ -1,3 +1,4 @@
+from datetime import timedelta
 from db import db, migrate
 from flask import Flask
 from configs import current_config 
@@ -11,7 +12,8 @@ db.init_app(app_instance)
 migrate.init_app(app_instance, db)
 
 app_instance.config["SESSION_TYPE"] = "filesystem"
-Session(app_instance)
+app_instance.config["SECRET_KEY"] = "SDALFKHksdzjfnadsfnj65168"
+app_instance.permanent_session_lifetime = timedelta(minutes=5)
 
 if __name__ == "__main__":
     app_instance.run()

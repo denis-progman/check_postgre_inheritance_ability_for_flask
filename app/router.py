@@ -2,6 +2,7 @@ from flask import Flask, send_from_directory
 from controllers import UserController
 from controllers import GoogleAuthController
 from controllers import AppController
+from controllers import SessionController
 
 route_rules = [
     # Main
@@ -10,7 +11,7 @@ route_rules = [
     # Test
     {"rule": "/test/<string:password_to_verify>", "methods": ["POST"], "view_func": AppController.password_verify},
     {"rule": "/test2", "methods": ["GET"], "view_func": AppController.get_hashed_password},
-
+    {"rule": "/session_test/<int:id>", "methods": ["GET"], "view_func": SessionController.check_session},
     {"rule": "/user_auth", "methods": ["POST"], "view_func": GoogleAuthController.user_auth},
 
     # User api

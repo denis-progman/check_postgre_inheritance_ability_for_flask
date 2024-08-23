@@ -22,12 +22,13 @@ class GoogleAuthService:
         redirect_uri=os.getenv("REDIRECT_URI")
         )
     def get_google_data(auth_code):
-        __class__.flow.fetch_token(code=auth_code)
+
+        # __class__.flow.fetch_token(code=auth_code)
+
+        __class__.fetch_token(auth_code)
 
         id_info = id_token.verify_oauth2_token(
-            request=google.auth.transport.requests.Request(
-                session=cachecontrol.CacheControl(requests.session())
-            ),
+            request=google.auth.transport.requests.Request(session=cachecontrol.CacheControl(requests.session())),
             audience=Config.GOOGLE_CLIENT_ID,
             id_token=__class__.flow.credentials._id_token
         )
@@ -36,3 +37,6 @@ class GoogleAuthService:
             'google_id': id_info["sub"],
             'user_name': id_info["name"],
         }
+    
+    def fetch_token(auth_code):
+        __class__.flow.fetch_token(code=auth_code)

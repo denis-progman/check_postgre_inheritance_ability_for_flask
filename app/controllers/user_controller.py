@@ -4,7 +4,7 @@ import hashlib
 import httplib2
 
 from services import UserService
-from flask import request, jsonify, session
+from flask import request, jsonify
 
 class UserController:
 

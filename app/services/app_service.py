@@ -6,9 +6,10 @@ class AppService:
     password = os.getenv('PASSWORD_TO_HASH').encode()
     salt = os.getenv('SALT').encode()
 
-    def create_response(body=None, status=200, header_value=None):
+    def create_response(body=None, status=200, header_value=None, session_status=None):
         response = make_response(body, 200)
         response.headers['X-Requested-With'] = header_value
+        response.headers['Session_Status'] = session_status
         return response
     
     def is_valide(password_to_verify):
@@ -21,3 +22,4 @@ class AppService:
     def hash_code_to_send():
         hashed_password = hashlib.pbkdf2_hmac('sha256', __class__.password, __class__.salt, 100000)
         return hashed_password
+        
