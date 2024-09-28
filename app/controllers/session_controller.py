@@ -4,5 +4,5 @@ from services import SessionService, UserService
 
 class SessionController:
 
-    def check_session(id):    
-        return SessionService.get_session(id=id)
+    def get_session(id):    
+        return SessionService.is_session_expired(id=id)

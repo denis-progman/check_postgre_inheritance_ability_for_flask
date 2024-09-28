@@ -1,15 +1,24 @@
-from flask import session
+import datetime
 
+from flask import session
 from services import UserService
+from services import AppService
 
 class SessionService:
     
     def set_session(id):
-        session["key"] = UserService.get_user_by_id(id)['user']['user_name']
+        session["key"] = AppService.hash_code(str(UserService.get_user_by_id(id)['user']['id']) + ' ' + str(datetime.datetime.now()))
         return session["key"]
     
-    def get_session(id):
-        if not session.get('key'):
-           return "session is expired"
-        return session.get('key')
-    # __class__.set_session(id)
+    def is_session_expired(id):
+        try:
+            if not session.get('key'):
+                raise KeyError("Session is expired")
+            return session.get('key')
+        except KeyError as e:
+            return str(e)
+
+    # def is_session_expired(id):
+    #     if not session.get('key'):
+    #        return "session is expired"
+    #     return session.get('key')
