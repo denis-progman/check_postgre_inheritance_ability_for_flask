@@ -8,10 +8,7 @@ route_rules = [
     # Main
     {"rule": "/", "methods": ["GET"], "view_func": lambda: "Hello worldddddd!"},
 
-    # Test
-    {"rule": "/test/<string:password_to_verify>", "methods": ["POST"], "view_func": AppController.password_verify},
-    {"rule": "/test2", "methods": ["GET"], "view_func": AppController.get_hashed_password},
-    {"rule": "/session_test/<int:id>", "methods": ["GET"], "view_func": SessionController.get_session},
+    # Google Auth
     {"rule": "/user_auth", "methods": ["POST"], "view_func": GoogleAuthController.user_auth},
 
     # User api
