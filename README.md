@@ -16,9 +16,10 @@
 "serverAuthCode": "13216596816513854168"
 }
 ```
-> rewquest's header:
-'X-Requested-With': hashedPassword,
-
+### request's header:
+```
+'X-Requested-With': 387b562fefe45de2b573114a868a64a2335062f784bc1cfccae4da1fee85ea80,
+```
 ### sending response from back to front:
 > As the response the object will be send.
 Response object includes user's data:
@@ -39,7 +40,7 @@ Response object includes user's data:
 ```
 Response headers include:
 ```
- x-requested-with: 387b562fefe45de2b573114a868a64a2335062f784bc1cfccae4da1fee85ea80,
- content-type: application/json,
- session_status: 1fecd8a930804ca98a819a824d59ecd3fed2a7801deac8fbc4d828de04deb0c6
+ X-Requested-With: 387b562fefe45de2b573114a868a64a2335062f784bc1cfccae4da1fee85ea80,
+ Content-Type: application/json,
+ Session_Status: 1fecd8a930804ca98a819a824d59ecd3fed2a7801deac8fbc4d828de04deb0c6
 ```
