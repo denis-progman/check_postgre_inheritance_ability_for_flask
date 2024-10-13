@@ -1,9 +1,19 @@
 from models import User
-from sqlalchemy import select, desc
+from sqlalchemy import null, select, desc
 from db import db
 
 
 class UserService:
+    def is_user_exist(user_data):
+        user_object = __class__.get_users_by('google_id', user_data['google_id'])
+        if not user_object:
+            user_object = __class__.create_user(user_data)
+            return f"The user just has been created. Login is needed"
+        if not user_object['user']['login']:
+            return f"The field Login is empty"
+        else:
+            return user_object
+
     def get_users_by(field = None, field_value = None, from_number = None, count = None):
 
         statement  = select(User).where(getattr(User, field) == field_value)
@@ -12,15 +22,15 @@ class UserService:
         for row in db.session.execute(statement):
             response[User.__name__.lower()] = row.User.toDict()            
         return response
-
+    
     def get_user_by_id(user_id):
         return __class__.get_users_by("id", user_id)
-
+    
     def create_user(request_body):
 
         response = __class__.get_users_by('google_id', request_body['google_id'])
 
-        if not response:                
+        if not response:
             new_user = User()
 
             for field_name in new_user.mutable_fields:
@@ -32,6 +42,14 @@ class UserService:
         else:
             return response
 
+    def update_login(google_id, login):
+        user = User.query.filter_by(google_id=google_id).first()
+
+        user.login = login
+        db.session.commit()
+
+        return __class__.get_users_by('google_id', google_id)
+    
     def update_user(user_id, request_body):
         user = User.query.get(user_id)
 
