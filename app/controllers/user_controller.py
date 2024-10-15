@@ -22,6 +22,17 @@ class UserController:
             UserService.get_users_by(from_number=from_number, count=count)
         )
     
+    def update_login():
+        # Get data from the app
+        data = request.get_json()
+        google_id = data.get('google_id')
+        login = data.get('login')
+        headers = dict(request.headers)
+
+        return jsonify(
+            UserService.update_login(google_id, login)
+        )
+    
     def get_user_by_id(user_id):
         return jsonify(
             UserService.get_user_by_id(user_id=user_id)

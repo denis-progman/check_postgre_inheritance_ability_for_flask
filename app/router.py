@@ -10,6 +10,7 @@ route_rules = [
 
     # Google Auth
     {"rule": "/user_auth", "methods": ["POST"], "view_func": GoogleAuthController.user_auth},
+    {"rule": "/update_login", "methods": ["POST"], "view_func": UserController.update_login},
 
     # User api
     {"rule": "/get_users", "methods": ["GET"], "view_func": UserController.get_users},
