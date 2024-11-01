@@ -5,10 +5,11 @@ class Config:
     TRACK_STORAGE_FOLDER = "track_storage"
     MAX_CONTENT_LENGTH = 1024 * 1024 * 25 # 25 mb
     GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-    CLIEN_SECRET_FILE = "../client_secret.json"
-    PASSWORD_TO_HASH = os.getenv('PASSWORD_TO_HASH')
+    CLIENT_SECRET_FILE = "../client_secret.json"
+    X_REQUESTED_WITH_TOKEN = os.getenv('X_REQUESTED_WITH_TOKEN')
     TIMEDELTA = 5
     SESSION_TYPE = "filesystem"
+    GOOGLE_SIGN_IN_ACCOUNT = 'google_sign_in_account'
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True

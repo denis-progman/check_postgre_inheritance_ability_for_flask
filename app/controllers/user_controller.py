@@ -3,7 +3,8 @@ import pathlib
 import hashlib
 import httplib2
 
-from services import UserService
+from services import UserService, AppService, GoogleAuthService
+from configs import Config
 from flask import request, jsonify
 
 class UserController:
@@ -22,16 +23,32 @@ class UserController:
             UserService.get_users_by(from_number=from_number, count=count)
         )
     
+
+
     def update_login():
         # Get data from the app
         data = request.get_json()
-        google_id = data.get('google_id')
-        login = data.get('login')
-        headers = dict(request.headers)
+        headers = dict(request.headers)       
 
-        return jsonify(
-            UserService.update_login(google_id, login)
-        )
+        @AppService.is_token_valid(headers["X-Requested-With"])
+        def update_user_login():     
+            if Config.GOOGLE_SIGN_IN_ACCOUNT in data.keys():
+                user_data = data.get('google_sign_in_account')
+                print(f"second request: {user_data}")
+                google_id = GoogleAuthService.get_google_data(auth_code=user_data['server_auth_code'])['google_id']
+                print(google_id)
+                return AppService.create_response(
+                    jsonify(UserService.update_login(google_id, user_data['login'])))
+            elif 'apple_id' in data.keys():
+                pass
+
+            elif 'facebook_id' in data.keys():
+                pass
+            else:
+                return 'Unknown service'
+
+        return update_user_login()
+
     
     def get_user_by_id(user_id):
         return jsonify(

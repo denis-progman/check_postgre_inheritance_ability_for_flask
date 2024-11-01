@@ -1,4 +1,5 @@
 from flask import Flask, send_from_directory
+from controllers import AuthController
 from controllers import UserController
 from controllers import GoogleAuthController
 from controllers import AppController
@@ -9,8 +10,9 @@ route_rules = [
     {"rule": "/", "methods": ["GET"], "view_func": lambda: "Hello worldddddd!"},
 
     # Google Auth
-    {"rule": "/user_auth", "methods": ["POST"], "view_func": GoogleAuthController.user_auth},
-    {"rule": "/update_login", "methods": ["POST"], "view_func": UserController.update_login},
+    # {"rule": "/user_auth", "methods": ["POST"], "view_func": GoogleAuthController.user_auth},
+    {"rule": "/user_auth", "methods": ["POST"], "view_func": AuthController.auth_controller},
+    {"rule": "/register_user", "methods": ["POST"], "view_func": UserController.update_login},
 
     # User api
     {"rule": "/get_users", "methods": ["GET"], "view_func": UserController.get_users},
