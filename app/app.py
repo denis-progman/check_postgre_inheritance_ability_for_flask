@@ -5,7 +5,7 @@ from db import db, migrate
 from flask import Flask
 from configs import current_config 
 from router import routs_init
-from flask_session import Session
+# from flask_session import Session
 from configs import Config
 
 

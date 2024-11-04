@@ -8,11 +8,11 @@ class UserService:
         user_object = __class__.get_users_by('google_id', user_data['google_id'])
         if not user_object:
             user_object = __class__.create_user(user_data)
-            return f"The user just has been created. Login is needed"
+            return "message: The user just has been created. Login is needed", 401
         if not user_object['user']['login']:
-            return f"The field Login is empty"
+            return "message: The field Login is empty", 401
         else:
-            return user_object
+            return user_object, 200
 
     def get_users_by(field = None, field_value = None, from_number = None, count = None):
 
