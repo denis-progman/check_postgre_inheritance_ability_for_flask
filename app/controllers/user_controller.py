@@ -1,3 +1,4 @@
+import json
 import os
 import pathlib
 import hashlib
@@ -28,8 +29,7 @@ class UserController:
     def update_login():
         # Get data from the app
         data = request.get_json()
-        headers = dict(request.headers)       
-
+        headers = dict(request.headers) 
         @AppService.is_token_valid(headers["X-Requested-With"])
         def update_user_login():     
             if Config.GOOGLE_SIGN_IN_ACCOUNT in data.keys():

@@ -16,11 +16,7 @@ class GoogleAuthController:
         auth_code = data.get('serverAuthCode')
         headers = dict(request.headers)
 
-        print(headers["X-Requested-With"])
-        print(AppService.hashed_token)
-        print(AppService.is_valide(headers["X-Requested-With"]))
-
-        if AppService.is_valide(headers["X-Requested-With"]):
+        if AppService.is_valid(headers["X-Requested-With"]):
             google_data_status = GoogleAuthService.get_google_data(auth_code=auth_code)
             return AppService.create_response(
                 UserService.is_user_exist(google_data_status),

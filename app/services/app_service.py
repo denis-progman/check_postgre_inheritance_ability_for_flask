@@ -17,11 +17,8 @@ class AppService:
         response.headers['Session_Token'] = session_token
         return response
     
-    # def is_valide(password_to_verify):
-    #     if str(password_to_verify) == __class__.hashed_token:
-    #         return True
-    #     else:
-    #         return False
+    def is_valid(password_to_verify):
+        return str(password_to_verify) == __class__.hashed_token
 
     def hash_code(password):
         password_to_hash = password.encode()
