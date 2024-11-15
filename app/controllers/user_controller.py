@@ -4,7 +4,7 @@ import pathlib
 import hashlib
 import httplib2
 
-from services import UserService, AppService, GoogleAuthService
+from services import UserService, AppService, GoogleAuthService, SessionService
 from configs import Config
 from flask import request, jsonify
 
@@ -24,28 +24,19 @@ class UserController:
             UserService.get_users_by(from_number=from_number, count=count)
         )
     
-
-
     def update_login():
-        # Get data from the app
         data = request.get_json()
         headers = dict(request.headers) 
-        @AppService.is_token_valid(headers["X-Requested-With"])
-        def update_user_login():     
-            if Config.GOOGLE_SIGN_IN_ACCOUNT in data.keys():
-                user_data = data.get('google_sign_in_account')
-                print(f"second request: {user_data}")
-                google_id = GoogleAuthService.get_google_data(auth_code=user_data['server_auth_code'])['google_id']
-                print(google_id)
-                return AppService.create_response(
-                    jsonify(UserService.update_login(google_id, user_data['login'])))
-            elif 'apple_id' in data.keys():
-                pass
 
-            elif 'facebook_id' in data.keys():
-                pass
-            else:
-                return 'Unknown service'
+        @AppService.is_token_valid(headers["X-Requested-With"])
+        @AppService.check_min_str_length(data['google_sign_in_account']['login'], 3)  # 3 - min length of login to check
+        def update_user_login():     
+            google_sign_in_account_data = data.get('google_sign_in_account')
+            google_id = GoogleAuthService.get_google_data(auth_code=google_sign_in_account_data['server_auth_code'])['google_id']
+            response_body, status_code = UserService.update_login(google_id, google_sign_in_account_data['login'])
+            return AppService.create_response(
+                body = AppService.add_dict_value(response_body, 'session_token', SessionService.set_session(response_body['user']['id'])),
+                status = status_code)
 
         return update_user_login()
 

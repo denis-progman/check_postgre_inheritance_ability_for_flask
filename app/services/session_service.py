@@ -17,8 +17,4 @@ class SessionService:
             return session.get('key')
         except KeyError as e:
             return str(e)
-
-    # def is_session_expired(id):
-    #     if not session.get('key'):
-    #        return "session is expired"
-    #     return session.get('key')
+        

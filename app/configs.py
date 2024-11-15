@@ -7,7 +7,7 @@ class Config:
     GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
     CLIENT_SECRET_FILE = "../client_secret.json"
     X_REQUESTED_WITH_TOKEN = os.getenv('X_REQUESTED_WITH_TOKEN')
-    TIMEDELTA = 5
+    TIMEDELTA = 10 # in minutes
     SESSION_TYPE = "filesystem"
     GOOGLE_SIGN_IN_ACCOUNT = 'google_sign_in_account'
 
