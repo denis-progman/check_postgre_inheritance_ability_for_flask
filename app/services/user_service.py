@@ -1,5 +1,5 @@
 from models import User
-from sqlalchemy import null, select, desc
+from sqlalchemy import select
 from db import db
 
 
@@ -8,9 +8,9 @@ class UserService:
         user_object = __class__.get_users_by('google_id', user_data['google_id'])
         if not user_object:
             user_object = __class__.create_user(user_data)
-            return "message: The user just has been created. Login is needed", 401
+            return "message: The user just has been created. Login is required", 401
         if not user_object['user']['login']:
-            return "message: The field Login is empty", 401
+            return "message: The required field Login is empty", 401
         else:
             return user_object, 200
 
@@ -48,7 +48,7 @@ class UserService:
         user.login = login
         db.session.commit()
 
-        return __class__.get_users_by('google_id', google_id)
+        return __class__.get_users_by('google_id', google_id), 200
     
     def update_user(user_id, request_body):
         user = User.query.get(user_id)

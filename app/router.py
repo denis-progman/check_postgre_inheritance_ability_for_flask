@@ -1,5 +1,4 @@
-from flask import Flask, send_from_directory
-from controllers import AuthController
+from flask import Flask
 from controllers import UserController
 from controllers import GoogleAuthController
 from controllers import AppController
@@ -10,8 +9,7 @@ route_rules = [
     {"rule": "/", "methods": ["GET"], "view_func": lambda: "Hello worldddddd!"},
 
     # Google Auth
-    # {"rule": "/user_auth", "methods": ["POST"], "view_func": GoogleAuthController.user_auth},
-    {"rule": "/user_auth", "methods": ["POST"], "view_func": AuthController.auth_controller},
+    {"rule": "/user_auth", "methods": ["POST"], "view_func": GoogleAuthController.google_auth_controller},
     {"rule": "/register_user", "methods": ["POST"], "view_func": UserController.update_login},
 
     # User api
@@ -21,6 +19,9 @@ route_rules = [
     {"rule": "/create_user", "methods": ["POST"], "view_func": UserController.create_user},
     {"rule": "/update_user/<int:user_id>", "methods": ["PUT"], "view_func": UserController.update_user},
     {"rule": "/delete_user/<int:user_id>", "methods": ["DELETE"], "view_func": UserController.delete_user},
+
+    # Tests
+    {"rule": "/session_test/<int:id>", "methods": ["GET"], "view_func": SessionController.get_session},
 ]
 
 def routs_init(app: Flask):
