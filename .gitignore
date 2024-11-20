@@ -12,3 +12,4 @@ app/__pycache__
 venv
 flask_session/
 client_secret.json
+*.log

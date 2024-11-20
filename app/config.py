@@ -6,8 +6,8 @@ class Config:
     MAX_CONTENT_LENGTH = 1024 * 1024 * 25 # 25 mb
     GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
     CLIENT_SECRET_FILE = "../client_secret.json"
-    X_REQUESTED_WITH_TOKEN = os.getenv('X_REQUESTED_WITH_TOKEN')
-    TIMEDELTA = 10 # in minutes
+    CSRF_BACKEND_TOKEN = os.getenv('CSRF_BACKEND_TOKEN')
+    SESSION_LIFE_TIME = 10 # in minutes
     SESSION_TYPE = "filesystem"
     GOOGLE_SIGN_IN_ACCOUNT = 'google_sign_in_account'
 

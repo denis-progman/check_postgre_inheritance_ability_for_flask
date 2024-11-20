@@ -1,4 +1,3 @@
+from controllers.main_controller import MainController
 from controllers.user_controller import UserController
-from controllers.google_auth_controller import GoogleAuthController
-from controllers.app_controller import AppController
-from controllers.session_controller import SessionController
+from controllers.auth_controller import AuthController
