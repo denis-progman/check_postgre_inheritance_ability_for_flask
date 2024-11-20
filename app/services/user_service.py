@@ -1,5 +1,6 @@
+from exceptions.fatal_error import FatalError
 from models import User
-from sqlalchemy import select, desc
+from sqlalchemy import select
 from db import db
 
 
@@ -8,31 +9,36 @@ class UserService:
 
         statement  = select(User).where(getattr(User, field) == field_value)
 
-        response = {}
+        users = []
         for row in db.session.execute(statement):
-            response[User.__name__.lower()] = row.User.toDict()            
-        return response
+            users.append(row.User.toDict())    
 
+        return users
+    
     def get_user_by_id(user_id):
-        return __class__.get_users_by("id", user_id)
+        return __class__.get_users_by("id", user_id)[0]
+    
+    def create_update_user_by(unique_user_field_name, user_data):
+        users = __class__.get_users_by(unique_user_field_name, user_data[unique_user_field_name])
+        amount_of_users = len(users)
 
-    def create_user(request_body):
-
-        response = __class__.get_users_by('google_id', request_body['google_id'])
-
-        if not response:                
-            new_user = User()
-
-            for field_name in new_user.mutable_fields:
-                setattr(new_user, field_name, request_body.get(field_name, None))
-            
-            db.session.add(new_user)
-            db.session.commit()
-            return __class__.get_user_by_id(new_user.id)
+        if amount_of_users == 0:
+            user = User()
+        elif amount_of_users == 1:
+            user = users[0]
         else:
-            return response
+            raise FatalError(f'Error! {amount_of_users} users have been found by the unique field "{unique_user_field_name}"')
 
-    def update_user(user_id, request_body):
+
+        for field_name in user.mutable_fields:
+            setattr(user, field_name, user_data.get(field_name, None))
+        
+        db.session.add(user)
+        db.session.commit()
+
+        return __class__.get_user_by_id(user.id)
+
+    def update_user_by_id(user_id, request_body):
         user = User.query.get(user_id)
 
         for field_key, field_value in request_body.items():
@@ -42,7 +48,7 @@ class UserService:
         return __class__.get_user_by_id(user_id)
 
 
-    def delete_user(user_id):
+    def delete_user_by_id(user_id):
         user = User.query.get(user_id)
         if user == None:
             return ('User with Id "{}" is not found!').format(user_id)
@@ -50,3 +56,4 @@ class UserService:
         db.session.delete(user)
         db.session.commit()
         return ('User with Id "{}" deleted successfully!').format(user_id)
+    
